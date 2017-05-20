@@ -1,3 +1,3 @@
 # Recipe Transcoder
 
-Translate recipes from a [conventional plaintext format](https://github.com/foodvibes/recipes) to a customized html template.
+Translate recipes from a [conventional plaintext format](https://github.com/foodvibes/recipes) to a customized html template with golang.
