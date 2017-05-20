@@ -1,9 +1,0 @@
-<h1>{{ .Recipe.Title }}</h1>
-<directions>{{ range .Recipe.Directions }}
-  <p>{{ . }}</p>{{ end }}
-</directions>
-<ingredients>{{ range .Recipe.Ingredients }}
-  <ing>{{ . }}</ing>{{ end }}
-  <yield>{{ .Recipe.Yield }}</yield>
-</ingredients>
-{{ index .Args 1 }}

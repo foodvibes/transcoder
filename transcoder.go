@@ -5,7 +5,7 @@ import (
   "log"
   "io/ioutil"
   "strings"
-  "html/template"
+  "text/template"
 )
 
 type Recipe struct {
