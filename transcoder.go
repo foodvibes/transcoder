@@ -15,6 +15,11 @@ type Recipe struct {
   Directions []string
 }
 
+type TemplateContext struct {
+  Recipe Recipe
+  Args []string
+}
+
 func main() {
   if (len(os.Args) < 2) {
     log.Fatal("No file specified.")
@@ -45,7 +50,8 @@ func main() {
     log.Fatal(err)
   }
 
-  err = t.Execute(os.Stdout, r)
+  context := TemplateContext{r, os.Args}
+  err = t.Execute(os.Stdout, context)
   if err != nil {
     log.Fatal(err)
   }
