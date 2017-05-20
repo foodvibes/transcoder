@@ -1,0 +1,8 @@
+<h1>{{ .Title }}</h1>
+<directions>{{ range .Directions }}
+  <p>{{ . }}</p>{{ end }}
+</directions>
+<ingredients>{{ range .Ingredients }}
+  <ing>{{ . }}</ing>{{ end }}
+  <yield>{{ .Yield }}</yield>
+</ingredients>
