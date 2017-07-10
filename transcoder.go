@@ -3,6 +3,8 @@ package main
 import (
   "os"
   "log"
+  "errors"
+  "io"
   "io/ioutil"
   "strings"
   "text/template"
@@ -29,30 +31,44 @@ func main() {
     log.Fatal("No template specified.")
   }
 
-  // Read file
-  content, err := ioutil.ReadFile(os.Args[1])
+  err := Transcode(os.Args[1], os.Args[2], os.Stdout, os.Args)
   if err != nil {
     log.Fatal(err)
+  }
+}
+
+func Transcode(contentPath string, templatePath string, output io.Writer, extra []string) error {
+  // Read file
+  content, err := ioutil.ReadFile(contentPath)
+  if err != nil {
+    return err
   }
 
   // Split content by sequential newlines
   sections := strings.Split(string(content), "\n\n")
   if (len(sections) < 4) {
-    log.Fatal("There should be at least 4 sections: title, ingredients, yield and directions.")
+    return errors.New("There should be at least 4 sections: title, ingredients, yield and directions.")
   }
 
+  // Second section is list of ingredients
   ingredients := strings.Split(sections[1], "\n")
 
+  // First section is title; third is yield; fourth and beyond are directions
   r := Recipe{sections[0], ingredients, sections[2], sections[3:]}
 
-  t, err := template.ParseFiles(os.Args[2])
+  // Load the template
+  t, err := template.ParseFiles(templatePath)
   if err != nil {
-    log.Fatal(err)
+    return err
   }
 
-  context := TemplateContext{r, os.Args}
-  err = t.Execute(os.Stdout, context)
+  context := TemplateContext{r, extra}
+
+  // Apply context to template and write to output
+  err = t.Execute(output, context)
   if err != nil {
-    log.Fatal(err)
+    return err
   }
+
+  return nil
 }

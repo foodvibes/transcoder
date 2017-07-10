@@ -1,0 +1,10 @@
+Title: {{ .Recipe.Title }}
+
+Directions:{{ range .Recipe.Directions }}
+  {{ . }}{{ end }}
+Ingredients:{{ range .Recipe.Ingredients }}
+  {{ . }}{{ end }}
+
+Yield: {{ .Recipe.Yield }}
+
+Extra: {{ index .Args 0 }}
